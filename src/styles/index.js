@@ -1,4 +1,4 @@
 import globalStyles from './globalStyles';
 import loginStyles from './loginStyles';
-
-export {globalStyles, loginStyles};
+import profileStyles from './profileStyles';
+export {globalStyles, loginStyles, profileStyles};

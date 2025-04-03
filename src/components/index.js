@@ -1,3 +1,5 @@
 import ConfrimModal from './ConfrimModal';
+import OrderCard from './OrderCard';
+import OrderDetailDrawer from './OrderDetailDrawer';
 
-export {ConfrimModal};
+export {ConfrimModal, OrderCard, OrderDetailDrawer};

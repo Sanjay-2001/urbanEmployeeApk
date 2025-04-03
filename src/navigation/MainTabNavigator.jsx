@@ -20,7 +20,7 @@ const MainTabNavigator = ({handleLogout}) => {
 
   const HeaderLeft = ({onPress}) => (
     <TouchableOpacity onPress={onPress} style={styles.headerButton}>
-      <Ionicons name="arrow-undo" size={s(20)} color="#fff" />
+      <Ionicons name="caret-back" size={s(20)} color="#fff" />
     </TouchableOpacity>
   );
 
@@ -51,7 +51,7 @@ const MainTabNavigator = ({handleLogout}) => {
       Orders: focused ? 'list' : 'list-outline',
     };
 
-    return <Ionicons name={iconMap[route.name]} size={size} color={color} />;
+    return <Ionicons name={iconMap[route.name]} size={s(24)} color={color} />;
   };
 
   return (
@@ -74,7 +74,6 @@ const MainTabNavigator = ({handleLogout}) => {
             backgroundColor: COLORS.primary,
             elevation: 0,
             shadowOpacity: 0,
-            height: vs(50),
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -132,7 +131,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondary,
     borderRadius: 8,
   },
-  customButton: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  customButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   logoutText: {
     color: COLORS.white,
     fontSize: s(12),

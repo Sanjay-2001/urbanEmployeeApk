@@ -2,6 +2,8 @@ const COLORS = {
   primary: '#1a998e',
   secondary: '#11675f',
   background: '#F5F5F5',
+  opaqueBackground: 'rgba(110, 231, 168, 0.39)',
+  lightBackground: '#72cf9f',
   white: '#FFFFFF',
   black: '#000000',
   gray: '#8E8E93',
@@ -17,3 +19,5 @@ const COLORS = {
 };
 
 export default COLORS;
+
+// #72cf9f
