@@ -19,5 +19,3 @@ const COLORS = {
 };
 
 export default COLORS;
-
-// #72cf9f

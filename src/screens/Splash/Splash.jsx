@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
+import COLORS from '../../utils/COLORS';
+import {ms} from 'react-native-size-matters';
 
 const Splash = ({navigation}) => {
   useEffect(() => {
@@ -10,7 +12,10 @@ const Splash = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to MyApp 🚀</Text>
+      <Image
+        source={require('../../assets/images/app_logo.png')}
+        style={styles.app_logo}
+      />
     </View>
   );
 };
@@ -20,12 +25,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1a998e', // Primary color
+    backgroundColor: COLORS.white,
   },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
+  app_logo: {
+    height: ms(150),
+    width: ms(150),
   },
 });
 

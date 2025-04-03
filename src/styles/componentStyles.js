@@ -54,7 +54,7 @@ const componentStyles = StyleSheet.create({
   priceTextHighlighted: {
     backgroundColor: COLORS.white,
     paddingHorizontal: s(5),
-    paddingVertical: vs(1),
+    paddingTop: vs(2),
     borderRadius: 8,
   },
   priceText: {

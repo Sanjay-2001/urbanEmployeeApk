@@ -3,7 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AuthNavigator from './AuthNavigator';
 import MainTabNavigator from './MainTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
+import COLORS from '../utils/COLORS';
+import {ms} from 'react-native-size-matters';
 
 const RootStack = createStackNavigator();
 
@@ -46,8 +48,11 @@ const RootNavigator = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.loaderBody}>
-        <ActivityIndicator size="large" />
+      <View style={styles.container}>
+        <Image
+          source={require('../assets/images/app_logo.png')}
+          style={styles.app_logo}
+        />
       </View>
     );
   }
@@ -70,5 +75,14 @@ const RootNavigator = () => {
 export default RootNavigator;
 
 const styles = StyleSheet.create({
-  loaderBody: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+  },
+  app_logo: {
+    height: ms(150),
+    width: ms(150),
+  },
 });

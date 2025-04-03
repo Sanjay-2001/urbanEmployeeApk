@@ -47,11 +47,8 @@ const profileStyles = StyleSheet.create({
     paddingHorizontal: ms(10),
     paddingVertical: ms(6),
     marginBottom: vs(5),
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORS.secondary,
-    borderBottomWidth: 0,
+    borderTopLeftRadius: 7,
+    borderTopRightRadius: 7,
   },
   detailRow: {
     flexDirection: 'row',
@@ -78,7 +75,15 @@ const profileStyles = StyleSheet.create({
   availabilityText: {
     fontFamily: 'Poppins-Regular',
     fontSize: s(12),
-    color: COLORS.text.secondary,
+    color: COLORS.white,
+    borderRadius: 5,
+    paddingHorizontal: s(6),
+  },
+  availabilityTextHighlighted: {
+    backgroundColor: COLORS.lightBackground,
+  },
+  nonavailabilityTextHighlighted: {
+    backgroundColor: '#f47575',
   },
   switch: {
     transform: [{scaleX: 0.8}, {scaleY: 0.8}],

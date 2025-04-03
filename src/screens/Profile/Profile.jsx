@@ -65,7 +65,13 @@ const Profile = () => {
               value={isAvailable}
               style={profileStyles.switch}
             />
-            <Text style={profileStyles.availabilityText}>
+            <Text
+              style={[
+                profileStyles.availabilityText,
+                isAvailable
+                  ? profileStyles.availabilityTextHighlighted
+                  : profileStyles.nonavailabilityTextHighlighted,
+              ]}>
               {isAvailable ? 'Present' : 'Absent'}
             </Text>
           </View>
