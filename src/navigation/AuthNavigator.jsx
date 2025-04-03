@@ -4,11 +4,17 @@ import {Login} from '../screens';
 
 const AuthStack = createStackNavigator();
 
-const AuthNavigator = ({handleLogin}) => {
+const AuthNavigator = ({handleLogin, loginLoading}) => {
   return (
     <AuthStack.Navigator screenOptions={{headerShown: false}}>
       <AuthStack.Screen name="Login">
-        {props => <Login {...props} handleLogin={handleLogin} />}
+        {props => (
+          <Login
+            {...props}
+            handleLogin={handleLogin}
+            loginLoading={loginLoading}
+          />
+        )}
       </AuthStack.Screen>
     </AuthStack.Navigator>
   );

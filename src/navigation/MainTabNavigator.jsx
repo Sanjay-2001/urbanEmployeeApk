@@ -57,6 +57,7 @@ const MainTabNavigator = ({handleLogout}) => {
   return (
     <>
       <Tab.Navigator
+        initialRouteName="Profile"
         screenOptions={({route}) => ({
           tabBarShowLabel: false,
           tabBarIcon: ({focused, color, size}) => (

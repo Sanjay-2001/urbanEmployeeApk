@@ -12,19 +12,24 @@ const RootStack = createStackNavigator();
 const RootNavigator = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const handleLogin = async token => {
+    setLoginLoading(true);
     try {
       await AsyncStorage.setItem('userToken', token);
       setUserToken(token);
     } catch (e) {
       console.error('Failed to save token', e);
+    } finally {
+      setLoginLoading(false);
     }
   };
 
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('user');
       setUserToken(null);
     } catch (e) {
       console.error('Failed to remove token', e);
@@ -65,7 +70,13 @@ const RootNavigator = () => {
         </RootStack.Screen>
       ) : (
         <RootStack.Screen name="Auth">
-          {props => <AuthNavigator {...props} handleLogin={handleLogin} />}
+          {props => (
+            <AuthNavigator
+              {...props}
+              handleLogin={handleLogin}
+              loginLoading={loginLoading}
+            />
+          )}
         </RootStack.Screen>
       )}
     </RootStack.Navigator>

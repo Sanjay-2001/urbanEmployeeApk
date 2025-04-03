@@ -75,6 +75,8 @@ const loginStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: vs(10),
+    flexDirection: 'row',
+    gap: s(10),
   },
   buttonText: {
     color: COLORS.white,

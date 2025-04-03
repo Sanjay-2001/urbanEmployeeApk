@@ -12,8 +12,10 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import COLORS from '../../utils/COLORS';
 import {loginStyles} from '../../styles';
+import {api} from '../../utils/apiServices';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({handleLogin}) => {
+const Login = ({handleLogin, loginLoading}) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -26,12 +28,12 @@ const Login = ({handleLogin}) => {
 
   const handlePhoneChange = text => {
     setPhone(text);
-    setError(''); // Clear error when typing
+    setError('');
   };
 
   const handlePasswordChange = text => {
     setPassword(text);
-    setError(''); // Clear error when typing
+    setError('');
   };
 
   const onLoginPress = async () => {
@@ -56,7 +58,16 @@ const Login = ({handleLogin}) => {
 
     setError('');
     try {
-      await handleLogin('dummy-auth-token');
+      const result = await api.post(`auth/employee/login`, {
+        phone: phone,
+        password: password,
+      });
+
+      console.log('result', result);
+      if (result.accessToken) {
+        await AsyncStorage.setItem('user', JSON.stringify(result.user));
+        await handleLogin(result.accessToken);
+      }
     } catch (e) {
       console.error('Login failed', e);
       setError('Login failed. Please try again.');
@@ -133,8 +144,16 @@ const Login = ({handleLogin}) => {
 
             {error ? <Text style={loginStyles.errorText}>{error}</Text> : null}
 
-            <TouchableOpacity style={loginStyles.button} onPress={onLoginPress}>
-              <Text style={loginStyles.buttonText}>Sign In</Text>
+            <TouchableOpacity
+              style={[
+                loginStyles.button,
+                loginLoading && {backgroundColor: COLORS.secondary},
+              ]}
+              onPress={onLoginPress}
+              disabled={loginLoading}>
+              <Text style={loginStyles.buttonText}>
+                {loginLoading ? 'Signing In' : 'Sign In'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
