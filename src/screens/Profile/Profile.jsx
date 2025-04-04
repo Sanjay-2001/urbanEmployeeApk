@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 import CustomSwitch from '../../components/CustomSwitch';
 
 const Profile = () => {
-  const [isAvailable, setIsAvailable] = useState(null);
+  const [isAvailable, setIsAvailable] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,10 +17,10 @@ const Profile = () => {
     const employeeId = userData?._id;
     try {
       const result = await api.patch(`employees/update/${employeeId}`, {
-        isActive: !isAvailable,
+        isActive: !userData.isActive,
       });
-      setIsAvailable(!isAvailable);
-      console.log('result', result?.isActive);
+
+      await fetchUserData();
     } catch (error) {
       console.log('error', error);
     } finally {
@@ -28,22 +28,28 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = await AsyncStorage.getItem('user');
-        if (user) {
-          const parsedUser = JSON.parse(user);
-          setUserData(parsedUser);
-          setIsAvailable(parsedUser.isActive);
-        } else {
-          console.log('No user data found');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+  const fetchUserData = async () => {
+    try {
+      setIsLoading(true);
+      const user = await AsyncStorage.getItem('user');
+      if (user) {
+        const parsedUser = JSON.parse(user);
 
+        const result = await api.get(`employees/${parsedUser._id}`);
+
+        setUserData(result.data);
+        setIsAvailable(result.data.isActive);
+      } else {
+        console.log('No user data found');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUserData();
   }, []);
 
