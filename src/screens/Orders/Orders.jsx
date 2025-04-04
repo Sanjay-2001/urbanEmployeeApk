@@ -79,6 +79,7 @@ const Orders = () => {
               order={item}
               onPress={() => handleOpenDrawer(item)}
               employeeId={userData._id}
+              refreshOrders={getOrderDetails}
             />
           )}
           showsVerticalScrollIndicator={false}

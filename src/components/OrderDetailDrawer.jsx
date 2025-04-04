@@ -8,7 +8,6 @@ import {launchCamera} from 'react-native-image-picker';
 import ConfrimModal from './ConfrimModal';
 import COLORS from '../utils/COLORS';
 import {api} from '../utils/apiServices';
-import {vs} from 'react-native-size-matters';
 import Loading from './Loading';
 
 const OrderDetailDrawer = ({order, onClose, employeeId, refreshOrders}) => {

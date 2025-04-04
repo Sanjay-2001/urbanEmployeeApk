@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import componentStyles from '../styles/componentStyles';
@@ -8,15 +8,11 @@ import ConfrimModal from './ConfrimModal';
 import {api} from '../utils/apiServices';
 import Loading from './Loading';
 
-const OrderCard = ({order, onPress, employeeId}) => {
+const OrderCard = ({order, onPress, employeeId, refreshOrders}) => {
   const {orderId, recipientName, recipientPhoneNo, totalAmount, status, _id} =
     order.order;
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  if (status !== 'inprogress') {
-    return;
-  }
 
   const openModal = () => {
     setShowModal(true);
@@ -33,8 +29,10 @@ const OrderCard = ({order, onPress, employeeId}) => {
       );
 
       console.log('result::', result);
+      await refreshOrders();
     } catch (error) {
       console.log('error:', error);
+      Alert.alert('Error', 'Something went wrong');
     } finally {
       setIsLoading(false);
       setShowModal(false);
@@ -43,74 +41,76 @@ const OrderCard = ({order, onPress, employeeId}) => {
 
   return (
     <>
-      <View
-        style={[
-          componentStyles.orderCard,
-          {
-            backgroundColor:
-              order?.deliveryStartTime && status === 'inprogress'
-                ? COLORS.opaqueBackground
-                : COLORS.white,
-          },
-        ]}>
-        <View>
-          <TouchableOpacity onPress={onPress}>
-            {order?.deliveryStartTime && status === 'inprogress' ? (
-              <MaterialCommunityIcons
-                name="truck-fast-outline"
-                style={componentStyles.truckIcon}
-              />
-            ) : (
-              <Ionicons
-                name="basket-outline"
-                style={componentStyles.basketIcon}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
-        {/* detail columm */}
-        <View style={componentStyles.detailColumn}>
-          <Text
-            style={componentStyles.orderId}
-            numberOfLines={1}
-            ellipsizeMode="tail">
-            Order #{orderId}
-          </Text>
-          <Text
-            style={componentStyles.name}
-            numberOfLines={1}
-            ellipsizeMode="tail">
-            {recipientName}
-          </Text>
-          <Text
-            style={componentStyles.phone}
-            numberOfLines={1}
-            ellipsizeMode="tail">
-            {recipientPhoneNo}
-          </Text>
-        </View>
-        {/* action colum */}
-        <View style={componentStyles.actionColumn}>
-          <Text
-            style={[
-              componentStyles.priceText,
-              order?.deliveryStartTime &&
-                status === 'inprogress' &&
-                componentStyles.priceTextHighlighted,
-            ]}
-            numberOfLines={1}
-            ellipsizeMode="tail">
-            ₹{totalAmount}
-          </Text>
-          {!order?.deliveryStartTime && status === 'inprogress' && (
-            <TouchableOpacity
-              style={componentStyles.button}
-              onPress={openModal}>
-              <Text style={componentStyles.buttonText}>Start</Text>
+      {status === 'inprogress' && (
+        <View
+          style={[
+            componentStyles.orderCard,
+            {
+              backgroundColor:
+                order?.deliveryStartTime && status === 'inprogress'
+                  ? COLORS.opaqueBackground
+                  : COLORS.white,
+            },
+          ]}>
+          <View>
+            <TouchableOpacity onPress={onPress}>
+              {order?.deliveryStartTime && status === 'inprogress' ? (
+                <MaterialCommunityIcons
+                  name="truck-fast-outline"
+                  style={componentStyles.truckIcon}
+                />
+              ) : (
+                <Ionicons
+                  name="basket-outline"
+                  style={componentStyles.basketIcon}
+                />
+              )}
             </TouchableOpacity>
-          )}
+          </View>
+          {/* detail columm */}
+          <View style={componentStyles.detailColumn}>
+            <Text
+              style={componentStyles.orderId}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              Order #{orderId}
+            </Text>
+            <Text
+              style={componentStyles.name}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {recipientName}
+            </Text>
+            <Text
+              style={componentStyles.phone}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {recipientPhoneNo}
+            </Text>
+          </View>
+          {/* action colum */}
+          <View style={componentStyles.actionColumn}>
+            <Text
+              style={[
+                componentStyles.priceText,
+                order?.deliveryStartTime &&
+                  status === 'inprogress' &&
+                  componentStyles.priceTextHighlighted,
+              ]}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              ₹{totalAmount}
+            </Text>
+            {!order?.deliveryStartTime && status === 'inprogress' && (
+              <TouchableOpacity
+                style={componentStyles.button}
+                onPress={openModal}>
+                <Text style={componentStyles.buttonText}>Start</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
+      )}
 
       <ConfrimModal
         showModal={showModal}
