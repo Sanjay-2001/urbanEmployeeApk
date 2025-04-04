@@ -42,18 +42,18 @@ const OrderCard = ({order, onPress, employeeId, refreshOrders}) => {
   return (
     <>
       {status === 'inprogress' && (
-        <View
-          style={[
-            componentStyles.orderCard,
-            {
-              backgroundColor:
-                order?.deliveryStartTime && status === 'inprogress'
-                  ? COLORS.opaqueBackground
-                  : COLORS.white,
-            },
-          ]}>
-          <View>
-            <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
+          <View
+            style={[
+              componentStyles.orderCard,
+              {
+                backgroundColor:
+                  order?.deliveryStartTime && status === 'inprogress'
+                    ? COLORS.opaqueBackground
+                    : COLORS.white,
+              },
+            ]}>
+            <View>
               {order?.deliveryStartTime && status === 'inprogress' ? (
                 <MaterialCommunityIcons
                   name="truck-fast-outline"
@@ -65,51 +65,51 @@ const OrderCard = ({order, onPress, employeeId, refreshOrders}) => {
                   style={componentStyles.basketIcon}
                 />
               )}
-            </TouchableOpacity>
+            </View>
+            {/* detail columm */}
+            <View style={componentStyles.detailColumn}>
+              <Text
+                style={componentStyles.orderId}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                Order #{orderId}
+              </Text>
+              <Text
+                style={componentStyles.name}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {recipientName}
+              </Text>
+              <Text
+                style={componentStyles.phone}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {recipientPhoneNo}
+              </Text>
+            </View>
+            {/* action colum */}
+            <View style={componentStyles.actionColumn}>
+              <Text
+                style={[
+                  componentStyles.priceText,
+                  order?.deliveryStartTime &&
+                    status === 'inprogress' &&
+                    componentStyles.priceTextHighlighted,
+                ]}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                ₹{totalAmount}
+              </Text>
+              {!order?.deliveryStartTime && status === 'inprogress' && (
+                <TouchableOpacity
+                  style={componentStyles.button}
+                  onPress={openModal}>
+                  <Text style={componentStyles.buttonText}>Start</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
-          {/* detail columm */}
-          <View style={componentStyles.detailColumn}>
-            <Text
-              style={componentStyles.orderId}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              Order #{orderId}
-            </Text>
-            <Text
-              style={componentStyles.name}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {recipientName}
-            </Text>
-            <Text
-              style={componentStyles.phone}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {recipientPhoneNo}
-            </Text>
-          </View>
-          {/* action colum */}
-          <View style={componentStyles.actionColumn}>
-            <Text
-              style={[
-                componentStyles.priceText,
-                order?.deliveryStartTime &&
-                  status === 'inprogress' &&
-                  componentStyles.priceTextHighlighted,
-              ]}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              ₹{totalAmount}
-            </Text>
-            {!order?.deliveryStartTime && status === 'inprogress' && (
-              <TouchableOpacity
-                style={componentStyles.button}
-                onPress={openModal}>
-                <Text style={componentStyles.buttonText}>Start</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
+        </TouchableOpacity>
       )}
 
       <ConfrimModal

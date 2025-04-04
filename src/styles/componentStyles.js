@@ -101,7 +101,7 @@ const componentStyles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: s(15),
     paddingTop: vs(20),
-    paddingBottom: vs(15),
+    paddingBottom: vs(40),
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
   },
@@ -111,13 +111,13 @@ const componentStyles = StyleSheet.create({
     alignItems: 'center',
   },
   orderDrawerTitle: {
-    fontSize: s(16),
+    fontSize: s(18),
     fontFamily: 'Poppins-SemiBold',
     color: COLORS.text.primary,
   },
   orderDrawerCloseIcon: {
     color: COLORS.gray,
-    fontSize: s(24),
+    fontSize: s(26),
   },
   orderDrawerDetailBox: {
     backgroundColor: 'rgba(198, 253, 215, 0.31)',
@@ -136,7 +136,7 @@ const componentStyles = StyleSheet.create({
   },
   orderDrawerLocationTitle: {
     color: COLORS.text.primary,
-    fontSize: s(14),
+    fontSize: s(15),
     fontFamily: 'Poppins-SemiBold',
   },
   orderDetailRow: {
@@ -146,12 +146,12 @@ const componentStyles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   orderDetailField: {
-    fontSize: s(12),
+    fontSize: s(14),
     fontFamily: 'Poppins-SemiBold',
     color: COLORS.text.primary,
   },
   orderDetailValue: {
-    fontSize: s(12),
+    fontSize: s(14),
     fontFamily: 'Poppins-Regular',
     color: COLORS.text.primary,
     flexShrink: 1,

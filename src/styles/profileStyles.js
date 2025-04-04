@@ -22,13 +22,13 @@ const profileStyles = StyleSheet.create({
     color: COLORS.lightBackground,
   },
   title: {
-    fontSize: s(14),
+    fontSize: s(15),
     fontFamily: 'Poppins-SemiBold',
     marginVertical: vs(8),
     color: COLORS.text.primary,
   },
   subTitle: {
-    fontSize: s(12),
+    fontSize: s(13),
     fontFamily: 'Poppins-Regular',
     color: COLORS.text.placeholder,
   },
@@ -40,7 +40,7 @@ const profileStyles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   title2: {
-    fontSize: s(14),
+    fontSize: s(15),
     fontFamily: 'Poppins-SemiBold',
     color: COLORS.white,
     backgroundColor: COLORS.primary,
@@ -59,22 +59,23 @@ const profileStyles = StyleSheet.create({
   },
   detailTitle: {
     fontFamily: 'Poppins-SemiBold',
-    fontSize: s(12),
+    fontSize: s(13),
     color: COLORS.text.primary,
   },
   detailValue: {
     fontFamily: 'Poppins-Regular',
-    fontSize: s(12),
+    fontSize: s(13),
     color: COLORS.text.secondary,
   },
   availabilityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: s(10),
+    marginLeft: s(10),
+    gap: s(15),
   },
   availabilityText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: s(12),
+    fontSize: s(13),
     color: COLORS.white,
     borderRadius: 5,
     paddingHorizontal: s(6),
@@ -84,9 +85,6 @@ const profileStyles = StyleSheet.create({
   },
   nonavailabilityTextHighlighted: {
     backgroundColor: '#f47575',
-  },
-  switch: {
-    transform: [{scaleX: 0.8}, {scaleY: 0.8}],
   },
 });
 

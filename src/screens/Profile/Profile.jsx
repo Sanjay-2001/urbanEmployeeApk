@@ -1,11 +1,11 @@
-import {View, Text, Switch} from 'react-native';
+import {View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {profileStyles} from '../../styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import COLORS from '../../utils/COLORS';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {api} from '../../utils/apiServices';
 import Loading from '../../components/Loading';
+import CustomSwitch from '../../components/CustomSwitch';
 
 const Profile = () => {
   const [isAvailable, setIsAvailable] = useState(null);
@@ -96,13 +96,9 @@ const Profile = () => {
           <View style={profileStyles.detailRow}>
             <Text style={profileStyles.detailTitle}>Availability:</Text>
             <View style={profileStyles.availabilityContainer}>
-              <Switch
-                trackColor={{false: COLORS.lightGray, true: COLORS.primary}}
-                thumbColor={COLORS.white}
-                ios_backgroundColor={COLORS.lightGray}
-                onValueChange={toggleAvailability}
+              <CustomSwitch
                 value={isAvailable}
-                style={profileStyles.switch}
+                onValueChange={toggleAvailability}
               />
               <Text
                 style={[
