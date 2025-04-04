@@ -1,84 +1,20 @@
-import {View} from 'react-native';
-import React, {useState} from 'react';
+import {RefreshControl, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {OrderCard, OrderDetailDrawer} from '../../components';
 import {globalStyles} from '../../styles';
 import {FlatList} from 'react-native-gesture-handler';
+import {api} from '../../utils/apiServices';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '../../components/Loading';
+import COLORS from '../../utils/COLORS';
 
 const Orders = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const orders = [
-    {
-      orderId: '1538',
-      name: 'Pritam Raut',
-      phone: '9876543210',
-      price: '4610.00',
-      status: 'delivery',
-    },
-    {
-      orderId: '1539',
-      name: 'Amit Sharma',
-      phone: '9823456789',
-      price: '599.50',
-      status: 'pending',
-    },
-    {
-      orderId: '1540',
-      name: 'Neha Verma',
-      phone: '9012345678',
-      price: '720.25',
-      status: 'pending',
-    },
-    {
-      orderId: '1541',
-      name: 'Ravi Kumar',
-      phone: '9876541230',
-      price: '312.75',
-      status: 'pending',
-    },
-    {
-      orderId: '1542',
-      name: 'Suman Das',
-      phone: '9785634120',
-      price: '850.00',
-      status: 'pending',
-    },
-    {
-      orderId: '1543',
-      name: 'Kiran Joshi',
-      phone: '9945123789',
-      price: '689.90',
-      status: 'pending',
-    },
-    {
-      orderId: '1544',
-      name: 'Anjali Singh',
-      phone: '9108765432',
-      price: '430.60',
-      status: 'pending',
-    },
-    {
-      orderId: '1545',
-      name: 'Rohan Mehta',
-      phone: '9087563412',
-      price: '499.99',
-      status: 'pending',
-    },
-    {
-      orderId: '1546',
-      name: 'Swati Patil',
-      phone: '9234567890',
-      price: '560.30',
-      status: 'pending',
-    },
-    {
-      orderId: '1547',
-      name: 'Vikram Rao',
-      phone: '9876123456',
-      price: '295.20',
-      status: 'pending',
-    },
-  ];
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [orders, setOrders] = useState([]);
 
   const handleOpenDrawer = order => {
     setSelectedOrder(order);
@@ -89,20 +25,83 @@ const Orders = () => {
     setIsDrawerOpen(false);
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = await AsyncStorage.getItem('user');
+        if (user) {
+          const parsedUser = JSON.parse(user);
+          setUserData(parsedUser);
+        } else {
+          console.log('No user data found');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      getOrderDetails();
+    }
+  }, [userData]);
+
+  const getOrderDetails = async () => {
+    setIsLoading(true);
+    const employeeId = userData?._id;
+    try {
+      const result = await api.get(`employee-orders/${employeeId}`);
+      setOrders(result);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setIsLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getOrderDetails();
+  };
+
   return (
-    <View style={globalStyles.container}>
-      <FlatList
-        data={orders}
-        keyExtractor={item => item.orderId}
-        renderItem={({item}) => (
-          <OrderCard order={item} onPress={() => handleOpenDrawer(item)} />
+    <>
+      <View style={globalStyles.container}>
+        <FlatList
+          data={orders}
+          keyExtractor={item => item.order.orderId}
+          renderItem={({item}) => (
+            <OrderCard
+              order={item}
+              onPress={() => handleOpenDrawer(item)}
+              employeeId={userData._id}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={[COLORS.primary]}
+              tintColor={COLORS.primary}
+            />
+          }
+        />
+        {isDrawerOpen && (
+          <OrderDetailDrawer
+            order={selectedOrder}
+            onClose={handleCloseDrawer}
+            employeeId={userData._id}
+            refreshOrders={getOrderDetails}
+          />
         )}
-        showsVerticalScrollIndicator={false}
-      />
-      {isDrawerOpen && (
-        <OrderDetailDrawer order={selectedOrder} onClose={handleCloseDrawer} />
-      )}
-    </View>
+      </View>
+      {isLoading && <Loading />}
+    </>
   );
 };
 

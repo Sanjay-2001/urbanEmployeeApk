@@ -76,7 +76,16 @@ const componentStyles = StyleSheet.create({
     color: COLORS.white,
     fontFamily: 'Poppins-Regular',
   },
-
+  capturedImage: {
+    width: s(50),
+    height: s(50),
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: COLORS.primary,
+    position: 'absolute',
+    top: vs(5),
+    left: s(5),
+  },
   // order drawer
   orderDrawerContainer: {
     backgroundColor: 'rgba(0, 0, 0,0.2)',
